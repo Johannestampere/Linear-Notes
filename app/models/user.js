@@ -1,0 +1,12 @@
+import mongoose from "mongoose";
+const uri = process.env.MONGODB_URI;
+
+const userSchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    folders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Folder" }],
+    files: [{ type: mongoose.Schema.Types.ObjectId, ref: "File" }],
+    recentFiles: [{ type: mongoose.Schema.Types.ObjectId, ref: "File" }],
+});
+
+export default mongoose.models.User || mongoose.model("User", userSchema);

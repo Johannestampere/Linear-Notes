@@ -25,6 +25,15 @@ export default function Dashboard() {
 
     return (
         <div>
+            
+            <div>
+                <div>Logo</div>
+                <button>Create +</button>
+                <button>Recents</button>
+                <button>About the appč</button>
+            </div>
+            
+            
             <h1>Dashboard</h1>
             <p>Welcome to your dashboard, {session.user.name}</p>
             <div>Session id: {session.sessionId}</div>

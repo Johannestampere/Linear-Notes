@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.js", "**/*.tsx", ".next/types/**/*.ts", "app/layout.tsx", "app/page.js", "app/lib/auth.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.js", "**/*.tsx", ".next/types/**/*.ts", "app/frontend/layout.tsx", "app/frontend/page.js", "app/lib/auth.js"],
   "exclude": ["node_modules"]
 }
