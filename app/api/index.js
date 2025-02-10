@@ -1,21 +1,29 @@
-const express=require('express');
-const { env } = require('process');
-import mongoose from "mongoose";
-import cors from "cors";
-import dbConnection from "./dbConnection";
+import dotenv from 'dotenv';
+
+// Imports
+import express from 'express';
+import dbConnection from './dbConnection.js';
+const port = process.env.PORT || 3001
+import cors from "cors"
+import { Db } from 'mongodb';
+import User from '../models/user.js'
+import Folder from '../models/folder.js'
+import File from '../models/file.js';
 
 // Create express app
-const app = express();
-const port = process.env.PORT || 3001;
-app.use(express.json());
-app.use(cors());
+const app = express()
 
-// Connect  to the database
+// Configure express app
+app.use(express.json())
+app.use(cors()) // middleware
+
+
+// Connect to mongoDB
 try {
-    dbConnection();
-    console.log("Connected to the database on port ${process.env.PORT}");
-} catch (err) {
-    console.log(err);
+    dbConnection()
+    console.log(`Connected to db on port ${port}`)
+} catch (e) {
+    console.log(e)
 }
 
 // Hello world
@@ -24,14 +32,9 @@ app.get('/', (req, res) => {
 });
 
 // User routes
-app.get('/user', (req, res) => {
-    res.send({
-        name: "",
-        email: "",
-        folders: [],
-        files: [],
-        recentFiles: [],
-    }); 
+app.get('/user', async (req, res) => {
+    const { user } = req.body;
+    
 });
 
 app.post('/user', (req, res) => {
