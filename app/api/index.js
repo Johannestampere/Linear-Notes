@@ -1,11 +1,10 @@
-import dotenv from 'dotenv';
+import "dotenv/config";
 
 // Imports
 import express from 'express';
 import dbConnection from './dbConnection.js';
 const port = process.env.PORT || 3001
 import cors from "cors"
-import { Db } from 'mongodb';
 import User from '../models/user.js'
 import Folder from '../models/folder.js'
 import File from '../models/file.js';
@@ -31,42 +30,33 @@ app.get('/', (req, res) => {
     res.send('Hello World');
 });
 
-// User routes
-app.get('/user', async (req, res) => {
-    const { user } = req.body;
-    
-});
+// Initialize user in db
+app.post('/new-user', async (req, res) => {
+    try {
+        const { email, name } = req.body
 
-app.post('/user', (req, res) => {
-    res.send({
-        name: "",
-        email: "",
-        folders: [],
-        files: [],
-        recentFiles: [],
-    });
-});
+        const user = await User.findOne({ email: email })
 
-// Folder routes
-app.get('/user/folders', (req, res) => {
-    res.send({
-        name: "",
-        owner: "",
-        parent: "",
-        children: [],
-        files: [],
-    });
-});
+        if (!user) {
+            const newUser = new User({
+                email,
+                name,
+                id,
+                folders: [],
+                files: [],
+                recentFiles: [],
+            })
 
-app.post('/user/folders', (req, res) => {
-    res.send({
-        name: "",
-        owner: "",
-        parent: "",
-        children: [],
-        files: [],
-    });
-});
+            await newUser.save()
+            res.send("User created")
+        }
+
+        res.json(user)
+    } catch (e) {
+        console.error(e)
+    }
+})
+        
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
