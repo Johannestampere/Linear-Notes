@@ -9,7 +9,7 @@ const fileSchema = new mongoose.Schema({
         {
             type: { type: String, enum: ["h1", "h2", "text", "latex", "2d", "3d"] },
             data: mongoose.Schema.Types.Mixed,
-        }
+        },
     ],
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
