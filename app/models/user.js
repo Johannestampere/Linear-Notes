@@ -5,7 +5,6 @@ const userSchema = new mongoose.Schema({
     name: String,
     email: String,
     folders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Folder" }],
-    files: [{ type: mongoose.Schema.Types.ObjectId, ref: "File" }],
     recentFiles: [{ type: mongoose.Schema.Types.ObjectId, ref: "File" }],
 });
 

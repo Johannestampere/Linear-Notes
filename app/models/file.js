@@ -4,7 +4,6 @@ const fileSchema = new mongoose.Schema({
     name: String,
     owner : { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     parent: { type: mongoose.Schema.Types.ObjectId, ref: "Folder" },
-    children: [{ type: mongoose.Schema.Types.ObjectId, ref: "Folder" }],
     content: [
         {
             type: { type: String, enum: ["h1", "h2", "text", "latex", "2d", "3d"] },

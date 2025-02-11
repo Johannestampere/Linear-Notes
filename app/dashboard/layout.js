@@ -1,10 +1,13 @@
 import Navbar from "../components/Navbar"
+import { FolderProvider } from "../context/folderContext"
 
 export default function Layout({ children }) {
     return (
-        <div>
-            <Navbar />
-            {children}
-        </div>
+        <FolderProvider>
+            <div>
+                <Navbar />
+                {children}
+            </div>
+        </FolderProvider>
     )
 }

@@ -1,3 +1,4 @@
+"use client"
 // This file tracks the user's current folder
 // using React Context
 // we need to do this to know create a new file or

@@ -1,8 +1,33 @@
+"use client"
 import Link from 'next/link';
 import About from '../dashboard/about/page';
+import { redirect, useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { useFolder } from '@/app/context/folderContext.js';
+import { useState } from 'react';
 
 export default function Navbar() {
+    // Get the current user session
+    const { data: session } = useSession();
+
+    const router = useRouter();
+
+    // Get the current folder id
+    const { currentFolder } = useFolder();
+
+    const [fileName, setFileName] = useState("");
+
     const handleCreateFile = async () => {
+    
+        if (!session) {
+            return null;
+            redirect("/");
+        }
+
+        if (!fileName) {
+            alert("Please enter a file name");
+        }
+
         try {
             const response = await fetch("/api/new-file", {
                 method: "POST",
@@ -10,9 +35,10 @@ export default function Navbar() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ 
-                    name: "New file", 
-                    content: "Write something here", 
-                    user: session.user.id 
+                    name: "Gotta get this from input", 
+                    content: [], 
+                    owner: session.user.email,
+                    parent: currentFolder,
                 }),
             });
         
@@ -33,7 +59,7 @@ export default function Navbar() {
                 Logo
             </Link>
             
-            <button>+</button>
+            <button onClick={ handleCreateFile }>+</button>
             <div>Recents</div>
             <Link href="/dashboard/about">
                 About
