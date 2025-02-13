@@ -3,42 +3,31 @@ import Link from 'next/link';
 import About from '../dashboard/about/page';
 import { redirect, useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { useFolder } from '@/app/context/folderContext.js';
 import { useState } from 'react';
 
 export default function Navbar() {
     // Get the current user session
     const { data: session } = useSession();
-
     const router = useRouter();
 
-    // Get the current folder id
-    const { currentFolder } = useFolder();
+    const [folderName, setFolderName] = useState("");
 
-    const [fileName, setFileName] = useState("");
-
-    const handleCreateFile = async () => {
-    
+    const handleCreateFolder = async () => {
         if (!session) {
-            return null;
             redirect("/");
-        }
-
-        if (!fileName) {
-            alert("Please enter a file name");
+            return null;
         }
 
         try {
-            const response = await fetch("/api/new-file", {
+            const response = await fetch("/api/new-folder", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ 
-                    name: "Gotta get this from input", 
-                    content: [], 
-                    owner: session.user.email,
-                    parent: currentFolder,
+                    nameFrontend: folderName, 
+                    ownerFrontend: session.user.email,
+                    parentFrontend: null,
                 }),
             });
         
@@ -46,12 +35,12 @@ export default function Navbar() {
                 const data = await response.json();
                 router.push("/dashboard");
             } else {
-                console.error('Failed to create file');
+                console.error('Failed to create folder');
             }
         } catch (e) {
             console.error(e);
         }
-    }
+    };
 
     return (
         <div>
@@ -59,7 +48,13 @@ export default function Navbar() {
                 Logo
             </Link>
             
-            <button onClick={ handleCreateFile }>+</button>
+            <input 
+                type="text" 
+                value={folderName} 
+                onChange={(e) => setFolderName(e.target.value)} 
+                placeholder="New folder name"
+            />
+            <button onClick={handleCreateFolder}>+</button>
             <div>Recents</div>
             <Link href="/dashboard/about">
                 About
